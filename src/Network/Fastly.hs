@@ -845,7 +845,7 @@ purge c mode url = ExceptT $ do
       let f r = case mode of
             Instant -> r
             Soft -> (r { requestHeaders = ("Fastly-Soft-Purge", "1") : requestHeaders r})
-      r <- httpLbs ((f req) { method = "PURGE" }) (fastlyClientManager c)
+      r <- httpLbs ((f req) { method = "POST" }) (fastlyClientManager c)
       return $ case eitherDecode $ responseBody r of
                 Left e -> Left $ JsonError e
                 Right r -> Right r
